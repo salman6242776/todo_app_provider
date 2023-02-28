@@ -10,9 +10,9 @@ import 'package:to_do_app/domain/services/todo_service.dart';
 
 class TodoProvider extends ChangeNotifier {
   late List<TodoModel> _listTodoModel;
-  ApiStatus _status = ApiStatus.none;
+  ApiStatus _apiStatus = ApiStatus.none;
 
-  ApiStatus get status => _status;
+  ApiStatus get apiStatus => _apiStatus;
 
   List<TodoModel> get listTodoModel => _listTodoModel;
 
@@ -20,7 +20,7 @@ class TodoProvider extends ChangeNotifier {
     print("fetchAllTodos");
     NetworkUtil.hasInternetConnection().then((value) {
       if (value) {
-        _status = ApiStatus.loading;
+        _apiStatus = ApiStatus.loading;
         TodoService().getAllTodos().then((response) {
           print("Response : ${response.body}");
           if (response.statusCode == ApiStatusCode.success) {
@@ -28,14 +28,14 @@ class TodoProvider extends ChangeNotifier {
                 GetTodoResponse.fromJson(json.decode(response.body));
             print("todoReponse : ${todoReponse.listTodoModel}");
             _listTodoModel = todoReponse.listTodoModel;
-            _status = ApiStatus.success;
+            _apiStatus = ApiStatus.success;
           } else {
-            _status = ApiStatus.failed;
+            _apiStatus = ApiStatus.failed;
           }
           notifyListeners();
         });
       } else {
-        _status = ApiStatus.noInternet;
+        _apiStatus = ApiStatus.noInternet;
         notifyListeners();
       }
     });

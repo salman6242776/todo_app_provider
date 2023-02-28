@@ -19,7 +19,7 @@ class ToDoListScreen extends StatelessWidget {
         body: Consumer<TodoProvider>(
           builder: (context, todoProvider, child) {
             print("BUILDER");
-            switch (todoProvider.status) {
+            switch (todoProvider.apiStatus) {
               case ApiStatus.loading:
                 return const CircularProgressIndicator();
               case ApiStatus.noInternet:

@@ -12,7 +12,7 @@ class TodoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(_todoModel.completed
+      leading: Icon(_todoModel.isCompleted
           ? Icons.check_box
           : Icons.check_box_outline_blank),
       title: Text(_todoModel.title),
