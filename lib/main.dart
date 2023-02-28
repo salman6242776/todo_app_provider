@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/providers/todo_provider.dart';
-import './application/screens/todo_list_screen.dart';
+import 'package:to_do_app/common/di/get_it.dart';
+import 'package:to_do_app/presentation/screens/providers/todo_provider.dart';
+import 'presentation/screens/todo_list_screen.dart';
 
 void main() {
+  setupGetIt();
   runApp(const MyApp());
 }
 

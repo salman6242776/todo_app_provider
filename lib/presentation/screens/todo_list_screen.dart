@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/application/screens/widgets/todo_list_item.dart';
-import 'package:to_do_app/common/enums/status.dart';
-import 'package:to_do_app/providers/todo_provider.dart';
+import 'package:to_do_app/presentation/screens/widgets/todo_list_item.dart';
+import 'package:to_do_app/common/enums/api_status.dart';
+import 'package:to_do_app/presentation/screens/providers/todo_provider.dart';
 
 class ToDoListScreen extends StatelessWidget {
   const ToDoListScreen({super.key});
@@ -20,23 +20,23 @@ class ToDoListScreen extends StatelessWidget {
           builder: (context, todoProvider, child) {
             print("BUILDER");
             switch (todoProvider.status) {
-              case Status.loading:
+              case ApiStatus.loading:
                 return const CircularProgressIndicator();
-              case Status.noInternet:
+              case ApiStatus.noInternet:
                 return getCenteredTextAndRetry(
                     todoProvider, "Please check your Internet connection");
 
-              case Status.failed:
+              case ApiStatus.failed:
                 return getCenteredTextAndRetry(
                     todoProvider, "Something went wrong.\nPlease try again.");
-              case Status.success:
+              case ApiStatus.success:
                 return ListView.builder(
                   itemBuilder: ((context, index) => TodoListItem(
                         todoModel: todoProvider.listTodoModel.elementAt(index),
                       )),
                   itemCount: todoProvider.listTodoModel.length,
                 );
-              case Status.none:
+              case ApiStatus.none:
                 return const Center(
                   child: Text("Welcome!"),
                 );

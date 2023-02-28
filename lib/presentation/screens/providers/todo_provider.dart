@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:to_do_app/common/constants.dart';
-import 'package:to_do_app/common/enums/status.dart';
+import 'package:to_do_app/common/enums/api_status.dart';
 import 'package:to_do_app/common/utils/network_util.dart';
 import 'package:to_do_app/domain/model/response/get_todo_reponse.dart';
 import 'package:to_do_app/domain/model/todo_model.dart';
@@ -10,9 +10,9 @@ import 'package:to_do_app/domain/services/todo_service.dart';
 
 class TodoProvider extends ChangeNotifier {
   late List<TodoModel> _listTodoModel;
-  Status _status = Status.none;
+  ApiStatus _status = ApiStatus.none;
 
-  Status get status => _status;
+  ApiStatus get status => _status;
 
   List<TodoModel> get listTodoModel => _listTodoModel;
 
@@ -20,7 +20,7 @@ class TodoProvider extends ChangeNotifier {
     print("fetchAllTodos");
     NetworkUtil.hasInternetConnection().then((value) {
       if (value) {
-        _status = Status.loading;
+        _status = ApiStatus.loading;
         TodoService().getAllTodos().then((response) {
           print("Response : ${response.body}");
           if (response.statusCode == ApiStatusCode.success) {
@@ -28,14 +28,14 @@ class TodoProvider extends ChangeNotifier {
                 GetTodoResponse.fromJson(json.decode(response.body));
             print("todoReponse : ${todoReponse.listTodoModel}");
             _listTodoModel = todoReponse.listTodoModel;
-            _status = Status.success;
+            _status = ApiStatus.success;
           } else {
-            _status = Status.failed;
+            _status = ApiStatus.failed;
           }
           notifyListeners();
         });
       } else {
-        _status = Status.noInternet;
+        _status = ApiStatus.noInternet;
         notifyListeners();
       }
     });
